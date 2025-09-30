@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import './App.css'
 
 import NavBar from './commonPages/NavBar/NavBar'
-import Begin from './differentPages/begin/begin'
+import Begin from './differentPages/begin/Begin'
 import RepositoriesList from './differentPages/repositoriesList/RepositoriesList'
 import DontPlease from './differentPages/dontPlease/DontPlease'
 
