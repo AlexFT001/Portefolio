@@ -1,0 +1,25 @@
+
+.angryCat {
+  width: 100%;
+  height: calc(100vh - 50px); /* subtract nav height */
+  margin-top: 50px; /* same as nav height */
+  overflow: hidden;
+}
+
+.angryCat img {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.angryCat h1 {
+  position: absolute;
+  top: 70%;   /* vertical center */
+  left: 50%;  /* horizontal center */
+  transform: translate(-50%, -50%);
+  color: rgb(253, 0, 0);
+  font-size: 3rem;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+  margin: 0;
+}

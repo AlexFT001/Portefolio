@@ -1,0 +1,46 @@
+.avatar {
+  flex-shrink: 0;
+  width: min(30vw, 150px);
+  height: min(30vw, 150px);
+  background-color: black;
+  background-image: url('https://github.com/alexft001.png');
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.talktext {
+  padding: 1em;
+  text-align: left;
+  line-height: 1.5em;
+}
+
+.talktext p {
+  /* remove webkit p margins */
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+}
+
+.talk-bubble {
+  margin: 40px;
+  display: inline-block;
+  position: relative;
+  width: auto;
+  max-width: 400px;
+  height: auto;
+  background-color: rgb(255, 255, 255);
+  word-wrap: break-word;
+}
+
+.triangle:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -20px;
+	right: auto;
+  top: 38px;
+	bottom: auto;
+	border: 12px solid;
+	border-color: rgb(255, 255, 255) rgb(255, 255, 254) transparent transparent;
+}

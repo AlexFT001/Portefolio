@@ -1,0 +1,18 @@
+ .repositories h3 {
+     color: red;
+     margin-top: 40px;
+ }
+
+ .repo-list {
+     margin-top: 10px;
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+ }
+
+ .repo {
+     background-color: white;
+     padding: 15px;
+     border: 1px solid #ccc;
+     border-radius: 15px 15px;
+ }
