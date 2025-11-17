@@ -6,6 +6,7 @@ import NavBar from './commonPages/NavBar/NavBar'
 import Begin from './differentPages/begin/Begin'
 import RepositoriesList from './differentPages/repositoriesList/RepositoriesList'
 import DontPlease from './differentPages/dontPlease/DontPlease'
+import Chat from './commonPages/chat/Chat'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/repositories" element={<RepositoriesList />} />
         <Route path="/dont" element={<DontPlease />} />
       </Routes>
+      <Chat />
     </>
   )
 }
