@@ -5,7 +5,6 @@ function Chat() {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [chatHistory, setChatHistory] = useState([]); // store all messages
-    const [response, setResponse] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();

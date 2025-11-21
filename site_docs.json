@@ -1,0 +1,14 @@
+[
+  {
+    "url": "http://localhost:5173/",
+    "text": "Sobre\nRepositorios\nDon't Click it\n\nI'm someone that lives in the planet Earth.\n\nBelieve me!!\n\nHistory\n\nAll started with the BrightStart program!!!\n\nChat"
+  },
+  {
+    "url": "http://localhost:5173/dont",
+    "text": "Sobre\nRepositorios\nDon't Click it\nI told you!!!\nChat"
+  },
+  {
+    "url": "http://localhost:5173/repositories",
+    "text": "Sobre\nRepositorios\nDon't Click it\nRepositories\nCaminho\nProjetos_JavaScript\nChat"
+  }
+]

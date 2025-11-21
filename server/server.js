@@ -1,6 +1,7 @@
 import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
+import { search } from "./vectorStore.js";
 
 const app = express();
 
@@ -13,6 +14,18 @@ app.get("/chatQuim", async (req, res) => {
   try {
     const prompt = req.query.prompt;
 
+    const relevantDocs = search(prompt, 3);
+    const context = relevantDocs.map(d => d.text).join("\n\n");
+
+    const fullprompt = `You are a helpful assistant. Use the following website content to answer the question:
+
+                        Context:
+                        ${context}
+
+                        Question: ${prompt}
+                        `;
+    console.log(fullprompt);
+
     res.setHeader("Content-Type",  "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
@@ -22,7 +35,7 @@ app.get("/chatQuim", async (req, res) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "portefolioChat",
-        prompt
+        prompt: fullprompt
       })
     });
 
