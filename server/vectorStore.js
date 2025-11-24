@@ -1,29 +1,76 @@
-import fs from "fs"
-import cosineSimilarity from "cosine-similarity";
+import fs from "fs/promises";
+import { pipeline } from "@xenova/transformers";
+import { get } from "https";
 
-function embed(text) {
-    return text.split("").map(c => c.charCodeAt(0));
+
+// Load embedding model once (cached locally after first download)
+let embedder;
+async function getEmbedder() {
+    if (!embedder) {
+        embedder = await pipeline("feature-extraction", "Xenova/allMiniLM-L6-v2");
+    }
+    return embedder;
 }
 
-const docs = JSON.parse(fs.readFileSync("site_docs.json"));
+async function embed(text) {
+    const model = await getEmbedder();
+    const output = await model(text, { pooling: "mean", normalize: true });
+    return Array.from(output.data);
+}
 
-const vectors = docs.map( doc => ({
-    ...doc,
-    embedding: embed(doc.text)
-}));
 
-fs.writeFileSync("vectors.json", JSON.stringify(vectors,null,2));
-console.log("Vectors saved");
+export async function buildVectors() {
+    console.log("Loading site_docs.json...");
+    const docs = JSON.parse(await fs.readFile("site_docs.json", "utf8"));
 
-export function search(query, topK = 3){
-    const qVec = embed(query);
-    const results = vectors
-        .map(doc => ({ ...doc, score: cosineSimilarity(qVec, doc.embedding) }))
-        .sort((a,b) => b.score - a.score)
-        .slice(0, topK);
+    let vectors = [];
+    console.log("Embedding", docs.length, "documents...");
+
+    for (const doc in docs) {
+
+        const vector = await embed(docs.text);
+
+        vectors.push({
+            url: doc.url,
+            text: doc.text,
+            embedding: vector
+        });
+
+        console.log("Embedded:", doc.url);
+    }
+
+    console.log("saving vectors.json...");
+    await fs.writeFile("vectors.json", JSON.stringify(vectors, null, 2));
+    console.log("DONE");
+}
+
+function cosine(a, b) {
+    let sum = 0;
+    for (let i = 0; i < a.length; i++) sum += a[i] * b[i];
+    return sum;
+}
+
+let cachedVectors = null;
+
+export async function search(query, topK = 5) {
     
-    console.log("Search results for:", query);
-    results.forEach(r => console.log(r.url, r.score));
-    return results;
+    if(!cachedVectors) {
+        cachedVectors = JSON.parse(fs.readFileSync("vectors.json", "utf8"));
+    }
+    
+    const qVec = await embed(query);
 
+    const scored = cachedVectors.map(
+        v => ({
+            ...v,
+            score: cosine(qVec, v.embedding)
+        }))
+        .sort((a, b) = b.score - a.score)
+        .slice(0, topK);
+
+
+    return scored;
 }
+
+
+
