@@ -26,9 +26,9 @@ export async function buildVectors() {
     let vectors = [];
     console.log("Embedding", docs.length, "documents...");
 
-    for (const doc in docs) {
+    for (const doc of docs) {
 
-        const vector = await embed(docs.text);
+        const vector = await embed(doc.text);
 
         vectors.push({
             url: doc.url,
@@ -65,7 +65,7 @@ export async function search(query, topK = 5) {
             ...v,
             score: cosine(qVec, v.embedding)
         }))
-        .sort((a, b) = b.score - a.score)
+        .sort((a, b) => b.score - a.score)
         .slice(0, topK);
 
 

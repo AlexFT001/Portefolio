@@ -15,10 +15,13 @@ app.get("/chatQuim", async (req, res) => {
     const prompt = req.query.prompt;
 
     const relevantDocs = search(prompt, 3);
+    const urls = relevantDocs.map(d => d.url).join("\n\n")
     const context = relevantDocs.map(d => d.text).join("\n\n");
 
     const fullprompt = `You are a helpful assistant. Use the following website content to answer the question:
 
+                        URLS :
+                        ${urls}
                         Context:
                         ${context}
 
